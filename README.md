@@ -16,4 +16,4 @@ Open http://localhost:3000
 
 ## Deploy
 
-DEPLOY_URL
+https://jev-day0-fast-compaction.vercel.app
