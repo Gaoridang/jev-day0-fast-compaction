@@ -47,14 +47,14 @@ export function ChunkRow({
     >
       <div className="chunk-slot-inner">
         <div
-          className={`mb-1 flex items-start justify-between gap-3 rounded-md border px-2.5 py-1.5 ${rowClass} ${active ? "row-scan" : ""}`}
+          className={`mb-1 flex flex-col items-start justify-between gap-2 rounded-md border px-2.5 py-1.5 sm:flex-row ${rowClass} ${active ? "row-scan" : ""}`}
         >
           <div className="min-w-0 whitespace-pre-wrap break-words text-[13px] leading-6">
             <RowBody chunk={chunk} shown={shown} typing={typing} />
           </div>
           {badge ? (
             <div
-              className={`shrink-0 pt-0.5 text-[11px] leading-5 ${badge.tone === "drop" ? "text-red" : "text-green"}`}
+              className={`shrink-0 text-[11px] leading-5 sm:pt-0.5 sm:text-right ${badge.tone === "drop" ? "text-red" : "text-green"}`}
             >
               <span className="rounded-sm bg-current/15 px-1.5 py-0.5 font-semibold tracking-wide">
                 {badge.tag}

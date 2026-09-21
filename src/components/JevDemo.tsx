@@ -168,11 +168,19 @@ function isActive(chunk: Chunk, playback: Playback): boolean {
     return current !== undefined && current.id === chunk.id;
   }
   if (playback.phase === "scanning") {
+    if (playback.revealedThroughId === 0) {
+      const first = transcript[0];
+      return first !== undefined && first.id === chunk.id;
+    }
     return chunk.id === playback.revealedThroughId;
   }
   if (playback.phase === "collapsing") {
     const last = playback.removedIds[playback.removedIds.length - 1];
-    return last !== undefined && last === chunk.id;
+    if (last !== undefined) {
+      return last === chunk.id;
+    }
+    const firstDropped = droppedChunkIds[0];
+    return firstDropped !== undefined && firstDropped === chunk.id;
   }
   return false;
 }
@@ -259,7 +267,13 @@ export function JevDemo() {
     }
     const target = root.querySelector("[data-focus='true']");
     if (target instanceof HTMLElement) {
-      target.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      target.scrollIntoView({
+        block:
+          playback.phase === "scanning" || playback.phase === "collapsing"
+            ? "center"
+            : "nearest",
+        behavior: "smooth",
+      });
     }
   }, [playback]);
 
