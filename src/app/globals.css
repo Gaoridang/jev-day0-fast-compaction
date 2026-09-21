@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #111113;
+  --foreground: #e6e6eb;
+  --panel: #19191d;
+  --dim: #85868f;
+  --border: #3d3d47;
+  --orange: #d9783d;
+  --green: #4dd97a;
+  --red: #f54d54;
+  --amber: #fab83d;
+  --cyan: #66c7f2;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-panel: var(--panel);
+  --color-dim: var(--dim);
+  --color-border: var(--border);
+  --color-orange: var(--orange);
+  --color-green: var(--green);
+  --color-red: var(--red);
+  --color-amber: var(--amber);
+  --color-cyan: var(--cyan);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: var(--foreground);
+  animation: caret-blink 1s step-end infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.status-spin {
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  border: 2px solid var(--cyan);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: status-spin 0.55s linear infinite;
+}
+
+@keyframes status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.chunk-slot {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition:
+    grid-template-rows 420ms ease,
+    opacity 420ms ease;
+}
+
+.chunk-slot.is-collapsed {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+.chunk-slot > .chunk-slot-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.row-keep {
+  background: color-mix(in srgb, var(--green) 12%, transparent);
+  border-color: color-mix(in srgb, var(--green) 65%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--green) 22%, transparent);
+}
+
+.row-drop {
+  background: color-mix(in srgb, var(--red) 16%, transparent);
+  border-color: color-mix(in srgb, var(--red) 70%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--red) 22%, transparent);
+}
+
+.row-scan {
+  position: relative;
+}
+
+.row-scan::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
 }
